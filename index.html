@@ -1,0 +1,1273 @@
+
+<!DOCTYPE html>
+<html>
+
+
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>HeshFi</title>
+    <meta name="description" content="Multi-Chain DEX">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="assets/favicon.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="cdnjs.cloudflare.com/ajax/libs/pagePiling.js/1.5.6/jquery.pagepiling.min.css"/>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.0/tailwind.min.css" />
+    <link rel="stylesheet" href="cdn.jsdelivr.net/npm/%40fortawesome/fontawesome-free%405.15.3/css/fontawesome.min.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+    <script src="../use.fontawesome.com/9d88d6acf0.js"></script>
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+            color: white;
+        }
+
+        .main-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 40px;
+        }
+        .main-nav i {
+            font-size: 8px;
+            display: block;
+            margin: 10px;
+            transition: margin 200ms ease;
+        }
+        .main-nav i:hover {
+            color: #ed542c;
+        }
+        .main-nav:hover > i {
+            margin: 15px 12px;
+        }
+
+        .page {
+            height: 100%;
+            background-color: transparent;
+        }
+
+        .main-page-content {
+            background-color: transparent;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .main-page-content h1 {
+            font-family: "Bungee Hairline";
+            font-size: 60px;
+        }
+        .main-page-content h2 {
+            font-family: "Lato";
+            font-size: 16px;
+            letter-spacing: 2px;
+        }
+
+        iframe {
+            position: absolute;
+            top: -100%;
+        }
+
+        .universe {
+            z-index: -10000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            filter: contrast(120%);
+            background-color: black;
+            padding: 0px;
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .universe-container {
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(1600px at 70% 120%, #212750 10%, #020409 100%);
+        }
+
+        .content {
+            width: inherit;
+            height: inherit;
+        }
+
+        #universe {
+            width: 100%;
+            height: 100%;
+        }
+
+        #footer {
+            position: absolute;
+            bottom: 0px;
+            height: 300px;
+            width: 100%;
+        }
+
+        #scene {
+            height: 100%;
+            position: absolute;
+            left: 50%;
+            margin-left: -800px;
+            z-index: 100000;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <div class="desktop">
+
+        <div class="newsticker">
+            <div id="newsticker__content">
+                <p></p>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__left flex items-center">
+                <img id='header__logo' src='assets/logos/logo-1.png' alt='Multi-Chain DEX'
+                    class='w-28 mainheader__logo' />
+                <div class="header__hyperlinks flex justify-between mx-10">
+                    <p id='header__aboutdfyn' class='mr-4 cursor-pointer header__hyperlink'>ABOUT HESHFi</p>
+                    <p id='header__involved' class='mr-4 cursor-pointer header__hyperlink'>GET INVOLVED</p>
+                    <p id='header__roadmap' class='mr-4 cursor-pointer header__hyperlink'>ROADMAP</p>
+                    <p id='header__partners' class='mr-4 cursor-pointer header__hyperlink'>PARTNERS</p>
+                    <p id='header__docs' class='mr-4 cursor-pointer header__hyperlink'>DOCS</p>
+                    <p id='header__litepaper' class='mr-4 cursor-pointer header__hyperlink'>LITEPAPER</p>
+                </div>
+            </div>
+            <div class="header__right flex items-center">
+                <div class="header__links flex items-center justify-between mr-10">
+                    <a target="_blank" href="#">
+                        <img id="header__telegram" class="social-icons" src="assets/icons/telegram-white.svg" />
+                    </a>
+                    <a target="_blank" href="#">
+                        <img id="header__github" class="social-icons" src="assets/icons/github-white.svg" />
+                    </a>
+                    <a target="_blank" href="#">
+                       <img id="header__twitter" class="social-icons" src="assets/icons/twitter-white.svg" />
+                    </a>
+                    <a target="_blank" href="#">
+                       <img id="header__medium" class="social-icons" src="assets/icons/medium-white.svg" />
+                    </a>
+                    <a target="_blank" href="#">
+                        <img id="header__analytics" class="social-icons" src="assets/icons/analytics.svg" />
+                    </a>
+                </div>
+                <button class="start__farming" id='launch__exchange'>Launch Exchange</button>
+            </div>
+        </div>
+
+        <!--<div class="ticker">-->
+           <!--<div class="ticker__content">-->
+                <!--<div class="ticker__title">-->
+                    <!--Liquidity-->
+                <!--</div>-->
+                <!--<div class="ticker__values">-->
+                    <!--<div class="dollarvalue liquidity__value">-->
+                        <!---->
+                    <!--</div>-->
+                    <!--<div class="percentvalue liquidity__percent">-->
+                        <!---->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+            <!--<div class="ticker__hr"></div>-->
+            <!--<div class="ticker__content">-->
+                <!--<div class="ticker__title">-->
+                    <!--Volume(24hr)-->
+                <!--</div>-->
+                <!--<div class="ticker__values">-->
+                    <!--<div class="dollarvalue volume__value">-->
+                        <!---->
+                    <!--</div>-->
+                    <!--<div class="percentvalue volume__percent">-->
+                       <!---->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+
+       <div id="pagepiling">
+           <div class="section" id="section1">
+               <div class="section__1 flex h-full items-center justify-center">
+                   <div class="section1__left">
+
+
+
+                       <p class="section1__title">
+
+
+                           Multi-Chain
+
+                           DEX
+                       </p>
+
+                       <p class="section1__subheading">
+                           Cross-chain bridges are key to ecosystem growth. By preventing fragmentation of liquidity across chains they improve efficiency and price discovery
+                       </p>
+                   </div>
+                   <div class="section1__right">
+                       <div class="dfyn__front">
+                           <div class="dfyn__front1">
+                               <!--<img alt='HeshFi' class="dfyn__vector1" src="assets/vectors/hand2.png" />-->
+                                <!-- <img alt='Multi-Chain DEX' class='dfynvector__symbol1'
+                                    src='assets/vectors/dfyn-front1.svg' /> -->
+                            </div>
+                            <div id='dfyn__front2' class="dfyn__front2">
+                               <img class="dfyn__vector2" src="assets/logos/bigbg-logo.png" />
+                                <!-- <img class='dfynvector__symbol2' src='assets/vectors/dfyn-front2.svg' /> -->
+                            </div>
+                            <div id='dfyn__front3' class="dfyn__front3">
+                                <!--<img class="dfyn__vector3" src="assets/vectors/crypto-bag-big.png" />-->
+                               <!--  <img class='dfynvector__symbol3' src='assets/vectors/dfyn-front3.svg' /> -->
+                            </div>
+                        </div>
+                        <img class="platform__lines" src='assets/vectors/platform-lines.png' />
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="section2">
+                <!--<img id='dfyn__backdrop1' class="dfyn__backdrop" src="assets/logos/bigbg-logo.png" />-->
+                <div id="section__2" class="section__2 h-full">
+                    <div class='section2__wrapper'>
+                        <div class="section2__heading">
+                            <p class="section2__sub">HeshFi is</p>
+                            <p class="section2__main">A Multi-Chain<br /> AMM DEX</p>
+                        </div>
+                        <div class="section2__cards">
+                            <div id='section2__card1' class="section2__card">
+                                <!--<img class="section2card__vector" src="assets/vectors/gas.svg" />-->
+                                <img src="https://img.icons8.com/ultraviolet/80/000000/gas-pump.png"/>
+                                <p class="section2card__heading">Instant, Gasless Transactions on L2</p>
+                                <p class="section2card__subheading">HeshFi AMMs are optimized for supporting ultra-fast, gasless transactions atop multiple chains.</p>
+                            </div>
+                            <div id='section2__card2' class="section2__card">
+                                <!--<img class="section2card__vector" src="assets/vectors/router-3d-vector.svg" />-->
+                                <img src="https://img.icons8.com/nolan/96/path.png"/>
+                                <p class="section2card__heading">the router advantage</p>
+                                <p class="section2card__subheading">HeshFi’s AMMs nodes tap into Router’s XCLP (Cross-chain Liquidity Protocol), thus plugging into a liquidity super-mesh.</p>
+                            </div>
+                            <div id='section2__card3' class="section2__card">
+                                <!--<img class="section2card__vector" src="assets/vectors/space-ship.svg" />-->
+                                <img src="https://img.icons8.com/color/96/000000/sci-fi.png"/>
+                                <p class="section2card__heading">COMING SOON TO A BLOCKCHAIN NEAR YOU</p>
+                                <p class="section2card__subheading">Launched initially on Polygon, HeshFi will soon expand to BSC, HEC, AVALANCHE, POLKADOT, ALGORAND, and more.</p>
+                            </div>
+                            <div id='section2__card4' class="section2__card">
+                                <!--<img class="section2card__vector" src="assets/vectors/brain.svg" />-->
+                                <img src="https://img.icons8.com/emoji/96/000000/brain-emoji.png"/>
+                                <p class="section2card__heading">INTELLIGENT MARKET MAKING</p>
+                                <p class="section2card__subheading">Customizable market-making toolkit addresses common
+                                    AMM
+                                    issues.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="section3">
+                <div id='dfyn__repeat' class="dfyn__repeat">
+                </div>
+                <div id="section__3" class="section__3 pt-24">
+                    <div class="section3__card1">
+                        <div class="section3card__heading">
+                            Gateway To Layer 2
+                        </div>
+                        <div class="section3card__subheading">
+                            HeshFi’s Layer 2 technical launchpad will allow creators to launch their tokens on multiple chains, initiate farming plays and vesting with no code tools, stake contracts on HeshFi and undertake creatively designed Layer 2 IDO strategies in the absence of high ETH fees.
+                        </div>
+                    </div>
+                    <div class="section3__card2">
+                        <div class="section3card__heading">
+                            HeshFi Noderunner : <span>Now launch HeshFi on your chain</span>
+                        </div>
+                        <div class="section3card__subheading">
+                            HeshFi's node-runner platform will enable blockchain evangelists to run their own HeshFi node on the blockchain to earn passive income from fees collection.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="section4">
+                <div class="section__4 pt-24">
+                    <div class="dfyn__works">
+                        <p class="dfynworks__heading">How HeshFi works?</p>
+                        <p class="dfynworks__content">HeshFi is building a network of DEXes across multiple Layer 1 and Layer 2 blockchains. This will allow HeshFi to plug into multiple liquidity sources across chains, including the cross-chain liquidity ecosystem being developed by Router Protocol.</p>
+                    </div>
+                    <img class="dfyn__illustration" src="assets/logos/router.png" />
+                </div>
+            </div>
+
+            <div class="section" id="section5">
+                <div id='section__5' class="section__5 h-full">
+                    <div class='roadmap'>
+                        <div class="roadmap__title">
+                            <p class="roadmap__subheading">Here for future</p>
+                            <p class="roadmap__heading">Our Roadmap</p>
+                        </div>
+                        <div class="roadmap__years">
+                            <div id='y2020' class="roadmap__year">
+                                2020
+                            </div>
+                            <div id='y2021' class="roadmap__year">
+                                2021
+                            </div>
+                        </div>
+                        <div class="quater__cards">
+                            <div id='y2020q3' class="quater__card">
+                                <p id='y2020q3t' class="quatercard__title">Q3</p>
+                                <div class="dot__line">
+                                    <div id='y2020q3d' class="dotline__dot"></div>
+                                    <hr id='y2020q3l' class="dotline__line" />
+                                </div>
+                                <p class="quatecard__content">Development Starts : Launch beta AMM exchange on Layer-2
+                                    Polygon
+                                    (exchange.HeshFi.network)</p>
+                            </div>
+                            <div id='y2020q4' class="quater__card">
+                                <p id='y2020q4t' class="quatercard__title">Q4</p>
+                                <div class="dot__line">
+                                    <div id='y2020q4d' class="dotline__dot"></div>
+                                    <hr id='y2020q4l' class="dotline__line" />
+                                </div>
+                                <p class="quatecard__content">Spacefarm one week farm sprint on L1 - crossed $3 million TVL; Meta-transactions integrated leading to zero gas costs for HeshFi users</p>
+                            </div>
+                            <div id='y2021q1' class="quater__card">
+                                <p id='y2021q1t' class="quatercard__title">Q1</p>
+                                <div class="dot__line">
+                                    <div id='y2021q1d' class="dotline__dot"></div>
+                                    <hr id='y2021q1l' class="dotline__line" />
+                                </div>
+                                <p class="quatecard__content">Galaxyfarm crossed $2M in TVL in a day; L2 farm yielding 5 tokens for every liquidity pair</p>
+                            </div>
+                            <div id='y2021q2' class="quater__card">
+                                <p id='y2021q2t' class="quatercard__title">Q2</p>
+                                <div class="dot__line">
+                                    <div id='y2021q2d' class="dotline__dot"></div>
+                                    <hr id='y2021q2l' class="dotline__line" />
+                                </div>
+                                <p class="quatecard__content"> HeshFi nodes on other chains - BSC, Polka, Avalanche, Solana; HeshFi token as collateral on platforms; TGE Listing on Uniswap L1/HeshFi L2</p>
+                            </div>
+                            <div id='y2021q3' class="quater__card">
+                                <p id='y2021q3t' class="quatercard__title">Q3</p>
+                                <div class="dot__line">
+                                    <div id='y2021q3d' class="dotline__dot"></div>
+                                    <hr id='y2021q3l' class="dotline__line" />
+                                </div>
+                                <p class="quatecard__content">Integration with Router Aggregator; Single Asset staking/impermanent loss hedging; Launch of cross-chain IDO platform (L2); ‘Intelligent’ Market Maker</p>
+                            </div>
+                            <div id='y2021q4' class="quater__card">
+                                <p id='y2021q4t' class="quatercard__title">Q4</p>
+                                <div class="dot__line">
+                                    <div id='y2021q4d' class="dotline__dot"></div>
+                                    <hr id='y2021q4l' class="dotline__line" />
+                                </div>
+                                <p class="quatecard__content">Cross-chain credit markets infra/tools to enable seamless
+                                    cross
+                                    collateralization and borrowing across chains</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="section6">
+                <div id='section__6' class="section__6 h-full">
+                    <div class="getinvolved__wrapper">
+                        <div class="roadmap__title pt-12">
+                            <p class="roadmap__subheading">Join Us</p>
+                            <p class="roadmap__heading">Get involved</p>
+                        </div>
+                        <div class="getinvolved__cards">
+                            <div class="getinvolved__card">
+                                <!--<img class="involvedcard__img mb-8" src="assets/vectors/bug-bounty.svg" />-->
+                                <img src="https://img.icons8.com/nolan/96/program.png"/>
+                                <p class="involvedcard__title">BUG BOUNTY PROGRAM</p>
+                                <p class="involvedcard__content">Supporting developers, identifying attack vectors and
+                                    growing stronger together</p>
+                                <!--<div class="involvedcard__action contact">-->
+                                    <!--<p>Report a bug</p>-->
+                                <!--</div>-->
+                            </div>
+                            <div class="getinvolved__card">
+                                <!--<img class="mb-8" src="assets/vectors/research-program.svg" />-->
+                                <img src="https://img.icons8.com/office/80/000000/search--v2.png"/>
+                                <p class="involvedcard__title">RESEARCH PROGRAM</p>
+                                <p class="involvedcard__content">Funding research and development into crosschain
+                                    protocols
+                                    and applications</p>
+                                <!--<div class="involvedcard__action contact">-->
+                                    <!--<p>Pitch an Idea</p>-->
+                                <!--</div>-->
+                            </div>
+                            <div class="getinvolved__card">
+                                <!--<img class="mb-8" src="assets/vectors/partnership-proposal.svg" />-->
+                                <img src="https://img.icons8.com/nolan/96/helping-hand.png"/>
+                                <p class="involvedcard__title">PARTNERSHIP PROPOSALS</p>
+                                <p class="involvedcard__content">We would love to hear from projects, companies, teams
+                                    and
+                                    programmers that want to work with us</p>
+                                <!--<div class="involvedcard__action contact">-->
+                                    <!--<p>Get in touch</p>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section" id="section7">
+                <div id='section__7' class="section__7 h-full">
+                    <div class='section7__wrapper'>
+                        <div class="roadmap__title mt-10">
+                            <p class="roadmap__subheading mb-1">Going strong with</p>
+                            <p class="roadmap__heading">Investors</p>
+                        </div>
+                        <div class="investors">
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/CMS.png" />
+                                <p class="investor__name">CMS</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/qcp.png" />
+                                <p class="investor__name">QCP Capital</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/DFG.png" />
+                                <p class="investor__name">DFG</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/spark.png" />
+                                <p class="investor__name">SPARK DIGITAL</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/signum.png" />
+                                <p class="investor__name">SIGNUM</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/AU-21.png" />
+                                <p class="investor__name">AU 21</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/mgnr.png" />
+                                <p class="investor__name">MGNR</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/krpital.png" />
+                                <p class="investor__name">KRYPITAL</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img mt-2" src="assets/investors/rarestone.png" />
+                                <p class="investor__name">RARESTONE CAPITAL</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img w-24 mt-1" src="assets/investors/defi-capital.png" />
+                                <p class="investor__name">DEFI CAPITAL</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/morningstar.png" />
+                                <p class="investor__name">MORNING STAR</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/shima.png" />
+                                <p class="investor__name">SHIMA CAPITAL</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/m6.png" />
+                                <p class="investor__name">M 6</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/genblock.png" />
+                                <p class="investor__name">GENBLOCK</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/black-edge.png" />
+                                <p class="investor__name">BLACK EDGE</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/gbic.png" />
+                                <p class="investor__name">GBIC</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/Moonrock.png" />
+                                <p class="investor__name">MOONROCK</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/lotus-fund.png" />
+                                <p class="investor__name">LOTUS CAPITAL</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/dorm-fund.png" />
+                                <p class="investor__name">CRYPTO DORM FUND</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/X-21.png" />
+                                <p class="investor__name">X 21</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/mgnr.png" />
+                                <p class="investor__name">ZOKYO VENTURES</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/faculty.png" />
+                                <p class="investor__name">FACULTY</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/amstenn.png" />
+                                <p class="investor__name">AMESTEN CAPITAL</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/blockpact.png" />
+                                <p class="investor__name">BLOCKPACT CAPITAL</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/ex-network.png" />
+                                <p class="investor__name">EXNETWORK</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/cryptoslate.png" />
+                                <p class="investor__name">CRYPTOSLATE</p>
+                            </div>
+                            <div class="investor">
+                                <img class="investor__img" src="assets/investors/Kyros.png" />
+                                <p class="investor__name"> KYROS VENTURES</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="section" id="section8">
+                <!--<img id='dfyn__backdrop2' class="dfyn__backdrop" src="assets/logos/bigbg-logo.png" />-->
+                <div id='section__8' class="section__8">
+                    <div class='ourpartners'>
+                        <div class="roadmap__title  mt-10 ml-24 mb-0">
+                            <p class="roadmap__subheading">Going strong with</p>
+                            <p class="roadmap__heading">Our partners</p>
+                        </div>
+                        <div class="partners ml-24 mt-5" style="text-align: center;">
+                            <img class="partner" style="background-color: #9f7439;
+    padding: 5px;" src="assets/partners/router-logo-black.png" />
+                            <img class="partner" style="background-color: #9f7439;
+    padding: 5px;" src="assets/partners/Polygon.png" />
+                            <img class="partner" src="assets/partners/hashflow.png" style="background-color: #9f7439;
+    padding: 5px;" />
+                            <img class="partner" src="assets/partners/mantra.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/igg.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/ava.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/zokyo.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/umbrella.svg" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/union.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/bonded.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/dafi.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/biconomy.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/razor.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/glitch.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/Nord-finance.png" style="background-color: #9f7439;
+    padding: 5px;"/>
+                            <img class="partner" src="assets/partners/frontiers.svg" style="background-color: #9f7439;
+    padding: 5px;"/>
+                        </div>
+                    </div>
+                    <!--<div class="last__links">-->
+                        <!--<div class="lastlinks">-->
+                            <!--<img class="col-span-2 mb-8" src="assets/logos/logo-1.png"/>-->
+                            <!--<div class="links row-span-2">-->
+                                <!--<p class="link__title">LINKS</p>-->
+                                <!--<a class='no-underline' target="_blank" href="#">-->
+                                    <!--<p class="link">HeshFi Exchange</p>-->
+                                <!--</a>-->
+                                <!--<a class='no-underline' target="_blank" href="#">-->
+                                    <!--<p class="link">HeshFi Exchange (Hardware Wallets)</p>-->
+                                <!--</a>-->
+                                <!--<a class='no-underline' target="_blank" href="#">-->
+                                    <!--<p class="link">HeshFi Docs</p>-->
+                                <!--</a>-->
+                                <!--<a class='no-underline' target="_blank" href="#">-->
+                                    <!--<p class="link">HeshFi Litepaper</p>-->
+                                <!--</a>-->
+                                <!--<a class='no-underline' target="_blank" href="#">-->
+                                    <!--<p class="link">Router Protocol</p>-->
+                                <!--</a>-->
+                                <!--<a class='no-underline' target="_blank" href="#">-->
+                                    <!--<p class="link">SpaceFarm</p>-->
+                                <!--</a>-->
+                                <!--<a class='no-underline' target="_blank" href="#">-->
+                                    <!--<p class="link">GalaxyFarm</p>-->
+                                <!--</a>-->
+                                <!--<a class='no-underline' target="_blank" href="#">-->
+                                    <!--<p class="link">HeshFi Analytics</p>-->
+                                <!--</a>-->
+                            <!--</div>-->
+                            <!--<div class="developers">-->
+                                <!--<p class="link__title">DEVELOPERS</p>-->
+                                <!--<a class='no-underline' target="_blank" href="#">-->
+                                    <!--<p class="developer">Router</p>-->
+                                <!--</a>-->
+                                <!--<a class='no-underline' target="_blank" href="#">-->
+                                    <!--<p class="developer">HeshFi</p>-->
+                                <!--</a>-->
+                            <!--</div>-->
+                            <!--<div class="contacts">-->
+                                <!--<p class="link__title">CONTACT</p>-->
+                                <!--<p class="cursor-pointer contact">Security</p>-->
+                                <!--<p class="cursor-pointer contact">Support</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="last__sociallinks">-->
+                            <!--<a target="_blank" href="#">-->
+                                <!--<img class="sociallink__icon" src="assets/icons/telegram-white.svg" />-->
+                            <!--</a>-->
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <hr class="footer__hr" />
+            <div class="footer__container">
+                <img id='left__arrow' class='cursor-pointer' src="assets/icons/arrow-left.svg" />
+                <img id='right__arrow' class='cursor-pointer' src="assets/icons/arrow-right.svg" />
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile">
+        <div class="mobileheader">
+            <img class='mobileheader__logo' src='assets/logos/logo-1.png' />
+            <button class="start__farming" id='launch__exchange'>App<img class='hyper__icon'
+                    src='assets/icons/external-link-symbol.svg'></button>
+        </div>
+
+        <div class="mobilebody">
+            <!--<img class="mdfyn__backdrop" src="assets/logos/bigbg-logo.png" />-->
+
+            <div class="msection1">
+                <div class="msection1__vector">
+                    <img class="mdfyn__vector1" src="assets/vectors/crypto-bag.png" />
+                    <div class="mfloat__dfyn">
+                        <img class="mdfyn__vector2" src="assets/vectors/hand.png" />
+                    </div>
+                </div>
+                <div class="msection1__content">
+                    <p class="section1__title">
+                        Multi-Chain DEX
+                    </p>
+                    <p class="section1__subheading">
+                        Cross-chain bridges are key to ecosystem growth. By preventing fragmentation of liquidity across chains they improve efficiency and price discovery
+                    </p>
+                </div>
+            </div>
+
+            <div class="msection2">
+                <div class="msection2__heading">
+                    <p class="section2__sub">HeshFi is</p>
+                    <p class="section2__main">A Multi-Chain<br /> AMM DEX</p>
+                </div>
+                <div class="msection2__cards">
+                    <div class="section2__card">
+                        <img class="section2card__vector" src="assets/vectors/gas.svg" />
+                        <p class="section2card__heading">Instant, Gasless Transactions on L2</p>
+                        <p class="section2card__subheading">HeshFi AMMs are optimized for supporting ultra-fast, gasless transactions atop multiple chains.</p>
+                    </div>
+                    <div class="section2__card">
+                        <img class="section2card__vector" src="assets/vectors/router-3d-vector.svg" />
+                        <p class="section2card__heading">the router advantage</p>
+                        <p class="section2card__subheading">HeshFi’s AMMs nodes tap into Router’s XCLP (Cross-chain Liquidity Protocol), thus plugging into a liquidity super-mesh.</p>
+                    </div>
+                    <div class="section2__card">
+                        <img class="section2card__vector" src="assets/vectors/space-ship.svg" />
+                        <p class="section2card__heading">COMING SOON TO A BLOCKCHAIN NEAR YOU</p>
+                        <p class="section2card__subheading">Launched initially on Polygon, HeshFi will soon expand to BSC, HEC, AVALANCHE, POLKADOT, ALGORAND, and more.</p>
+                    </div>
+                    <div class="section2__card">
+                        <img class="section2card__vector" src="assets/vectors/brain.svg" />
+                        <p class="section2card__heading">INTELLIGENT MARKET MAKING</p>
+                        <p class="section2card__subheading">Customizable market-making toolkit addresses common
+                            AMM
+                            issues.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="msection3">
+                <div class="msection3__cards">
+                    <div class="section3__card1">
+                        <div class="section3card__heading">
+                            Gateway To Layer 2
+                        </div>
+                        <div class="section3card__subheading">
+                            HeshFi’s Layer 2 technical launchpad will allow creators to launch their tokens on multiple chains, initiate farming plays and vesting with no code tools, stake contracts on HeshFi and undertake creatively designed Layer 2 IDO strategies in the absence of high ETH fees.
+                        </div>
+                    </div>
+                    <div class="section3__card2">
+                        <div class="section3card__heading">
+                            HeshFi Noderunner : <span>Now launch HeshFi on your chain</span>
+                        </div>
+                        <div class="section3card__subheading">
+                            HeshFi's node-runner platform will enable blockchain evangelists to run their own HeshFi node on the blockchain to earn passive income from fees collection.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="msection4">
+                <div class="dfyn__works">
+                    <p class="dfynworks__heading">How HeshFi works?</p>
+                    <p class="dfynworks__content">HeshFi is building a network of DEXes across multiple Layer 1 and Layer 2 blockchains. This will allow HeshFi to plug into multiple liquidity sources across chains, including the cross-chain liquidity ecosystem being developed by Router Protocol.</p>
+                </div>
+            </div>
+
+            <div class="msection5">
+                <div class='roadmap'>
+                    <div class="roadmap__title">
+                        <p class="roadmap__subheading">Here for future</p>
+                        <p class="roadmap__heading">Our Roadmap</p>
+                    </div>
+                    <div class="roadmap__years">
+                        <div id='my2020' class="roadmap__year">
+                            2020
+                        </div>
+                        <div id='my2021' class="roadmap__year">
+                            2021
+                        </div>
+                    </div>
+                    <div class="quater__cards">
+                        <div class='my2020quaters'>
+                            <div id='my2020q3' class="quater__card">
+                                <p id='y2020q3t' class="quatercard__title">Q3</p>
+                                <p class="quatecard__content">Development Starts : Launch beta AMM exchange on Layer-2
+                                    Polygon
+                                    (exchange.HeshFi.network)</p>
+                            </div>
+                            <div id='my2020q4' class="quater__card">
+                                <p id='y2020q4t' class="quatercard__title">Q4</p>
+                                <p class="quatecard__content">Spacefarm one week farm sprint on L1 - crossed $3 million TVL; Meta-transactions integrated leading to zero gas costs for HeshFi users</p>
+                            </div>
+                        </div>
+                        <div class='my2021quaters'>
+                            <div id='my2021q1' class="quater__card">
+                                <p id='y2021q1t' class="quatercard__title">Q1</p>
+                                <p class="quatecard__content">Galaxyfarm crossed $2M in TVL in a day; L2 farm yielding 5 tokens for every liquidity pair</p>
+                            </div>
+                            <div id='my2021q2' class="quater__card">
+                                <p id='y2021q2t' class="quatercard__title">Q2</p>
+                                <p class="quatecard__content"> HeshFi nodes on other chains - BSC, Polka, Avalanche, Solana; HeshFi token as collateral on platforms; TGE Listing on Uniswap L1/HeshFi L2</p>
+                            </div>
+                            <div id='my2021q3' class="quater__card">
+                                <p id='y2021q3t' class="quatercard__title">Q3</p>
+                                <p class="quatecard__content">Integration with Router Aggregator; Single Asset staking/impermanent loss hedging; Launch of cross-chain IDO platform (L2); ‘Intelligent’ Market Maker</p>
+                            </div>
+                            <div id='my2021q4' class="quater__card">
+                                <p id='y2021q4t' class="quatercard__title">Q4</p>
+                                <p class="quatecard__content">Cross-chain credit markets infra/tools to enable seamless
+                                    cross
+                                    collateralization and borrowing across chains</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="msection6">
+                <div class="getinvolved__wrapper">
+                    <div class="roadmap__title pt-12">
+                        <p class="roadmap__subheading">Join Us</p>
+                        <p class="roadmap__heading">Get involved</p>
+                    </div>
+                    <div class="getinvolved__cards">
+                        <div class="getinvolved__card">
+                            <img class="involvedcard__img" src="assets/vectors/bug-bounty.svg" />
+                            <p class="involvedcard__title">BUG BOUNTY<br /> PROGRAM</p>
+                            <p class="involvedcard__content">Supporting developers, identifying attack vectors and
+                                growing stronger together</p>
+                            <div class="involvedcard__action contact">
+                                <p>Report a bug</p>
+                            </div>
+                        </div>
+                        <div class="getinvolved__card">
+                            <img class="mb-8" src="assets/vectors/research-program.svg" />
+                            <p class="involvedcard__title">RESEARCH<br /> PROGRAM</p>
+                            <p class="involvedcard__content">Funding research and development into crosschain
+                                protocols
+                                and applications</p>
+                            <div class="involvedcard__action contact">
+                                <p>Pitch an Idea</p>
+                            </div>
+                        </div>
+                        <div class="getinvolved__card">
+                            <img class="mb-8" src="assets/vectors/partnership-proposal.svg" />
+                            <p class="involvedcard__title">PARTNERSHIP<br /> PROPOSALS</p>
+                            <p class="involvedcard__content">We would love to hear from projects, companies, teams
+                                and
+                                programmers that want to work with us</p>
+                            <div class="involvedcard__action contact">
+                                <p>Get in touch</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--<div class="msection7">-->
+                <!--<div class='section7__wrapper'>-->
+                    <!--<div class="roadmap__title mt-10">-->
+                        <!--<p class="roadmap__subheading mb-1">Going strong with</p>-->
+                        <!--<p class="roadmap__heading">Investors</p>-->
+                    <!--</div>-->
+                    <!--<div class="investors">-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/CMS.png" />-->
+                            <!--<p class="investor__name">CMS</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/qcp.png" />-->
+                            <!--<p class="investor__name">QCP Capital</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/DFG.png" />-->
+                            <!--<p class="investor__name">DFG</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/spark.png" />-->
+                            <!--<p class="investor__name">SPARK DIGITAL</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/signum.png" />-->
+                            <!--<p class="investor__name">SIGNUM</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/AU-21.png" />-->
+                            <!--<p class="investor__name">AU 21</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/mgnr.png" />-->
+                            <!--<p class="investor__name">MGNR</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/krpital.png" />-->
+                            <!--<p class="investor__name">KRYPITAL</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img mt-1" src="assets/investors/rarestone.png" />-->
+                            <!--<p class="investor__name">RARESTONE CAPITAL</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img w-16" src="assets/investors/defi-capital.png" />-->
+                            <!--<p class="investor__name">DEFI CAPITAL</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/morningstar.png" />-->
+                            <!--<p class="investor__name">MORNING STAR</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/shima.png" />-->
+                            <!--<p class="investor__name">SHIMA CAPITAL</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/m6.png" />-->
+                            <!--<p class="investor__name">M 6</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/genblock.png" />-->
+                            <!--<p class="investor__name">GENBLOCK</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/black-edge.png" />-->
+                            <!--<p class="investor__name">BLACK EDGE</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/gbic.png" />-->
+                            <!--<p class="investor__name">GBIC</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/Moonrock.png" />-->
+                            <!--<p class="investor__name">MOONROCK</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/lotus-fund.png" />-->
+                            <!--<p class="investor__name">LOTUS CAPITAL</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/dorm-fund.png" />-->
+                            <!--<p class="investor__name">CRYPTO DORM FUND</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/X-21.png" />-->
+                            <!--<p class="investor__name">X 21</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/mgnr.png" />-->
+                            <!--<p class="investor__name">ZOKYO VENTURES</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/faculty.png" />-->
+                            <!--<p class="investor__name">FACULTY</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/amstenn.png" />-->
+                            <!--<p class="investor__name">AMESTEN CAPITAL</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/blockpact.png" />-->
+                            <!--<p class="investor__name">BLOCKPACT CAPITAL</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/ex-network.png" />-->
+                            <!--<p class="investor__name">EXNETWORK</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/cryptoslate.png" />-->
+                            <!--<p class="investor__name">CRYPTOSLATE</p>-->
+                        <!--</div>-->
+                        <!--<div class="investor">-->
+                            <!--<img class="investor__img" src="assets/investors/Kyros.png" />-->
+                            <!--<p class="investor__name"> KYROS VENTURES</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+            <div class="msection8">
+                <div class='ourpartners'>
+                    <div class="roadmap__title">
+                        <p class="roadmap__subheading">Going strong with</p>
+                        <p class="roadmap__heading">Our partners</p>
+                    </div>
+                    <div class="partners">
+                        <img class="partner" src="assets/partners/router-logo-black.png" />
+                        <img class="partner" src="assets/partners/Polygon.png" />
+                        <img class="partner" src="assets/partners/hashflow.png" />
+                        <img class="partner" src="assets/partners/mantra.png" />
+                        <img class="partner" src="assets/partners/igg.png" />
+                        <img class="partner" src="assets/partners/ava.png" />
+                        <img class="partner" src="assets/partners/zokyo.png" />
+                        <img class="partner" src="assets/partners/umbrella.svg" />
+                        <img class="partner" src="assets/partners/union.png" />
+                        <img class="partner" src="assets/partners/bonded.png" />
+                        <img class="partner" src="assets/partners/dafi.png" />
+                        <img class="partner" src="assets/partners/biconomy.png" />
+                        <img class="partner" src="assets/partners/razor.png" />
+                        <img class="partner" src="assets/partners/glitch.png" />
+                        <img class="partner" src="assets/partners/Nord-finance.png" />
+                        <img class="partner" src="assets/partners/frontiers.svg" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="msection9">
+                <div class="last__links">
+                    <div class="lastlinks">
+                        <img class="col-span-2 mb-8" src="assets/logos/logo-1.png"/>
+                        <div class="links row-span-2">
+                            <p class="link__title">LINKS</p>
+                            <a class='no-underline' target="_blank" href="#">
+                                <p class="link">HeshFi Exchange</p>
+                            </a>
+                            <a class='no-underline' target="_blank" href="https://app.dfyn.network/">
+                                <p class="link">HeshFi Exchange (Hardware Wallets)</p>
+                            </a>
+                            <a class='no-underline' target="_blank" href="https://docs.dfyn.network/">
+                                <p class="link">HeshFi Docs</p>
+                            </a>
+                            <a class='no-underline' target="_blank" href="#">
+                                <p class="link">HeshFi Litepaper</p>
+                            </a>
+                            <a class='no-underline' target="_blank" href="#">
+                                <p class="link">Router Protocol</p>
+                            </a>
+                            <a class='no-underline' target="_blank" href="#">
+                                <p class="link">SpaceFarm</p>
+                            </a>
+                            <a class='no-underline' target="_blank" href="#">
+                                <p class="link">GalaxyFarm</p>
+                            </a>
+                            <a class='no-underline' target="_blank" href="#">
+                                <p class="link">HeshFi Analytics</p>
+                            </a>
+                        </div>
+                        <div class="developers">
+                            <p class="link__title">DEVELOPERS</p>
+                            <a class='no-underline' target="_blank" href="#">
+                                <p class="developer">Router</p>
+                            </a>
+                            <a class='no-underline' target="_blank" href="#">
+                                <p class="developer">HeshFi</p>
+                            </a>
+                        </div>
+                        <div class="contacts">
+                            <p class="link__title">CONTACT</p>
+                            <p class="cursor-pointer contact">Security</p>
+                            <p class="cursor-pointer contact">Support</p>
+                        </div>
+                    </div>
+                    <div class="last__sociallinks">
+                        <a target="_blank" href="#">
+                            <img class="sociallink__icon" src="assets/icons/telegram-white.svg" />
+                        </a>
+                        <a target="_blank" href="#">
+                            <img class="sociallink__icon" src="assets/icons/github-white.svg" />
+                        </a>
+                        <a target="_blank" href="#">
+                            <img class="sociallink__icon" src="assets/icons/twitter-white.svg" />
+                        </a>
+                        <a target="_blank" href="#">
+                            <img class="sociallink__icon" src="assets/icons/medium-white.svg" />
+                        </a>
+                        <a target="_blank" href="#">
+                            <img class="sociallink__icon" src="assets/icons/linkedin-white.svg" />
+                        </a>
+                    </div>
+                    <div class="terms">
+                        <p class='show__privacymodal cursor-pointer'>Privacy Policy</p>
+                        <p class='show__termsmodal cursor-pointer'>Terms Of Use</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mask__privacy" role="dialog"></div>
+    <div id='dfyn__privacy' class="modal__privacy" role="alert">
+        <button class="close__modal" role="button">X</button>
+    </div>
+
+    <div class="mask__terms" role="dialog"></div>
+    <div id='dfyn__terms' class="modal__terms" role="alert">
+        <button class="close__modal" role="button">X</button>
+    </div>
+
+
+
+
+
+    <div class="universe">
+        <div class="universe-container">
+            <div class="content">
+                <canvas id="universe"></canvas>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- 
+        <div class="mask__prestaking" role="dialog">
+        </div>
+        <div id='dfyn__prestaking' class="modal__prestaking" role="alert">
+            <button class="prestaking__button" type="button" >Hyper Link</button>
+            <img class="close__prestakingmodal" src="/assets/vectors/close.svg"/>
+        </div>
+    -->
+
+    <script src="cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script src="cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="cdnjs.cloudflare.com/ajax/libs/pagePiling.js/1.5.6/jquery.pagepiling.min.js"></script>
+    <script src="script.js"></script>
+
+
+
+
+<script>
+    // THE UNIVERSE. Code adapted from https://codepen.io/Acuetouag/pen/vOgmza
+
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+    var starDensity = .216;
+    var speedCoeff = .05;
+    var width;
+    var height;
+    var starCount;
+    var circleRadius;
+    var circleCenter;
+    var first = true;
+    var giantColor = '180,184,240';
+    var starColor = '226,225,142';
+    var cometColor = '226,225,224';
+    var canva = document.getElementById('universe');
+    var stars = [];
+
+    windowResizeHandler();
+    window.addEventListener('resize', windowResizeHandler, false);
+
+    createUniverse();
+
+    function createUniverse() {
+        universe = canva.getContext('2d');
+
+        for (var i = 0; i < starCount; i++) {
+            stars[i] = new Star();
+            stars[i].reset();
+        }
+
+        draw();
+    }
+
+    function draw() {
+        universe.clearRect(0, 0, width, height);
+
+        var starsLength = stars.length;
+
+        for (var i = 0; i < starsLength; i++) {
+            var star = stars[i];
+            star.move();
+            star.fadeIn();
+            star.fadeOut();
+            star.draw();
+        }
+
+        window.requestAnimationFrame(draw);
+    }
+
+    function Star() {
+
+        this.reset = function() {
+            this.giant = getProbability(3);
+            this.comet = this.giant || first ? false : getProbability(10);
+            this.x = getRandInterval(0, width - 10);
+            this.y = getRandInterval(0, height);
+            this.r = getRandInterval(1.1, 2.6);
+            this.dx = getRandInterval(speedCoeff, 6 * speedCoeff) + (this.comet + 1 - 1) * speedCoeff * getRandInterval(50, 120) + speedCoeff * 2;
+            this.dy = -getRandInterval(speedCoeff, 6 * speedCoeff) - (this.comet + 1 - 1) * speedCoeff * getRandInterval(50, 120);
+            this.fadingOut = null;
+            this.fadingIn = true;
+            this.opacity = 0;
+            this.opacityTresh = getRandInterval(.2, 1 - (this.comet + 1 - 1) * .4);
+            this.do = getRandInterval(0.0005, 0.002) + (this.comet + 1 - 1) * .001;
+        };
+
+        this.fadeIn = function() {
+            if (this.fadingIn) {
+                this.fadingIn = this.opacity > this.opacityTresh ? false : true;
+                this.opacity += this.do;
+            }
+        };
+
+        this.fadeOut = function() {
+            if (this.fadingOut) {
+                this.fadingOut = this.opacity < 0 ? false : true;
+                this.opacity -= this.do / 2;
+                if (this.x > width || this.y < 0) {
+                    this.fadingOut = false;
+                    this.reset();
+                }
+            }
+        };
+
+        this.draw = function() {
+            universe.beginPath();
+
+            if (this.giant) {
+                universe.fillStyle = 'rgba(' + giantColor + ',' + this.opacity + ')';
+                universe.arc(this.x, this.y, 2, 0, 2 * Math.PI, false);
+            } else if (this.comet) {
+                universe.fillStyle = 'rgba(' + cometColor + ',' + this.opacity + ')';
+                universe.arc(this.x, this.y, 1.5, 0, 2 * Math.PI, false);
+
+                //comet tail
+                for (var i = 0; i < 30; i++) {
+                    universe.fillStyle = 'rgba(' + cometColor + ',' + (this.opacity - (this.opacity / 20) * i) + ')';
+                    universe.rect(this.x - this.dx / 4 * i, this.y - this.dy / 4 * i - 2, 2, 2);
+                    universe.fill();
+                }
+            } else {
+                universe.fillStyle = 'rgba(' + starColor + ',' + this.opacity + ')';
+                universe.rect(this.x, this.y, this.r, this.r);
+            }
+
+            universe.closePath();
+            universe.fill();
+        };
+
+        this.move = function() {
+            this.x += this.dx;
+            this.y += this.dy;
+            if (this.fadingOut === false) {
+                this.reset();
+            }
+            if (this.x > width - (width / 4) || this.y < 0) {
+                this.fadingOut = true;
+            }
+        };
+
+        (function() {
+            setTimeout(function() {
+                first = false;
+            }, 50)
+        })()
+    }
+
+    function getProbability(percents) {
+        return ((Math.floor(Math.random() * 1000) + 1) < percents * 10);
+    }
+
+    function getRandInterval(min, max) {
+        return (Math.random() * (max - min) + min);
+    }
+
+    function windowResizeHandler() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        starCount = width * starDensity;
+        circleRadius = (width > height ? height / 2 : width / 2);
+        circleCenter = {
+            x: width / 2,
+            y: height / 2
+        }
+
+        canva.setAttribute('width', width);
+        canva.setAttribute('height', height);
+    }
+</script>
+
+
+
+
+</body>
+
+
+<!-- Mirrored from 162.0.228.54/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 22 Jul 2021 08:31:04 GMT -->
+</html>
